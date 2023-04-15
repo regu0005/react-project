@@ -15,3 +15,7 @@ To Build the folder DIST execute before made a PUSH into the branch:
     npx vite build
 
     sudo netlify dev —live 
+
+Init Netlify
+
+    sudo netlify init
