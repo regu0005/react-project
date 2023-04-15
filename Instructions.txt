@@ -9,3 +9,9 @@ Execute the folow command to be ready to use this repo:
     npx vite build
 
     yarn dev
+
+To Build the folder DIST execute before made a PUSH into the branch:
+
+    npx vite build
+
+    sudo netlify dev —live 
