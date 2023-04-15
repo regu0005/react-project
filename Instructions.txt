@@ -1,0 +1,11 @@
+Execute the folow command to be ready to use this repo:
+
+    yarn install -y
+
+    yarn add react-router-dom
+
+    npm install react-datepicker
+
+    npx vite build
+
+    yarn dev

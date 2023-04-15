@@ -4,6 +4,8 @@ import { NavBar } from './components/NavBar';
 import { Home } from './components/Home';
 import { Login } from './components/Login';
 import { Logout } from './components/Logout';
+import { Users } from './components/Users';
+import { AddUser } from './components/AddUser';
 import { NotFound } from './components/NotFound';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -28,6 +30,8 @@ function App() {
         <Routes>
             <Route path='/' element={ <Home />}></Route>
             <Route path='/home' element={ <Home />}></Route>
+            <Route path='/users' element={ <Users />}></Route>
+            <Route path='/adduser' element={ <AddUser />}></Route>
             <Route path='/login' element={ <Login />}></Route>
             <Route path='/logout' element={ <Logout />}></Route>
             <Route path='/*' element={ <NotFound />}></Route>
