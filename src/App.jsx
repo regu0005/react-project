@@ -6,6 +6,7 @@ import { Login } from './components/Login';
 import { Logout } from './components/Logout';
 import { Users } from './components/Users';
 import { AddUser } from './components/AddUser';
+import { EditUser } from './components/EditUser';
 import { NotFound } from './components/NotFound';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -32,6 +33,7 @@ function App() {
             <Route path='/home' element={ <Home />}></Route>
             <Route path='/users' element={ <Users />}></Route>
             <Route path='/adduser' element={ <AddUser />}></Route>
+            <Route path='/edituser/:id' element={ <EditUser />}></Route>
             <Route path='/login' element={ <Login />}></Route>
             <Route path='/logout' element={ <Logout />}></Route>
             <Route path='/*' element={ <NotFound />}></Route>

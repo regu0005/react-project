@@ -38,8 +38,17 @@ export const AddUser = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        if (!user.name) {
+            alert("Please enter a name");
+            return;
+        }
         const newUser = { id: Date.now(), name: user.name, dob: user.dob };
         setUsers([...users, newUser]);
+        window.location.href = '/users';
+    };
+
+    const handleCancel = (event) => {
+        event.preventDefault();
         window.location.href = '/users';
     };
 
@@ -48,7 +57,7 @@ export const AddUser = () => {
       <h1>Add User</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-            <label htmlFor="name" className="form-label">First Name</label>
+            <label htmlFor="name" className="form-label">Full Name</label>
             <input
                 className="form-input"
                 type="text"
@@ -119,6 +128,7 @@ export const AddUser = () => {
             />
         </div>
         <button type="submit" className='general-btn'>SAVE</button>
+        <button className='general-btn' onClick={handleCancel} >CANCEL</button>
       </form>
     </>
   );

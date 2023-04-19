@@ -1,6 +1,9 @@
 import React from 'react';
 import { useLocalStorage } from '../hooks/UseLocalStorage';
 import { Link } from 'react-router-dom';
+import { mdiGift } from '@mdi/js';
+import { mdiPencil } from '@mdi/js';
+
 import '../App.css';
 
 export const Users = () => {
@@ -27,21 +30,37 @@ export const Users = () => {
       </div>
       <div className='user-list'>
         {sortedUsers.length > 0 ? (
-          <ul>
+          <div className='user-grid'>
+            <div className='user-grid-item header'>Name</div>
+            <div className='user-grid-item header'>Gifts</div>
+            <div className='user-grid-item header'>Edit</div>
             {sortedUsers.map((user) => (
-              <li key={user.id}>
-                <div className='user-info'>
-                  <div className='name'>{user.name}</div>
-                  <div className='dob'>{user.dob}</div>
+              <React.Fragment key={user.id}>
+                <div className='user-grid-item'>
+                  <div className='name'>
+                  {user.name}
+                  </div>
+                  <div className='dob'>
+                  {user.dob}
+                  </div>
                 </div>
-                <div className='edit'>
+                <div className='user-grid-item'>
                   <Link to={`/edituser/${user.id}`}>
-                    <i className='fa fa-pencil'></i>
+                    <svg className="gift-icon" viewBox="0 0 24 24">
+                      <path fill="currentColor" d={mdiGift} />
+                    </svg>
                   </Link>
                 </div>
-              </li>
+                <div className='user-grid-item'>
+                  <Link to={`/edituser/${user.id}`}>
+                    <svg className="edit-icon" viewBox="0 0 24 24">
+                      <path fill="currentColor" d={mdiPencil} />
+                    </svg>
+                  </Link>
+                </div>
+              </React.Fragment>
             ))}
-          </ul>
+          </div>
         ) : (
           <div className='no-users'>No users found.</div>
         )}
