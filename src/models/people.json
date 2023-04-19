@@ -1,0 +1,47 @@
+[
+    {
+      "name": "Dinesh",
+      "dob": 1676221658568,
+      "gifts": [{
+          "gift_id": "4c761878-8e26-4f66-a01f-e735282a66c1",
+          "text": "Lego Millenium Falcon",
+          "store": "Walmart",
+          "url": "https://www.walmart.com/"}]
+    },
+    {
+      "name": "Jane",
+      "dob": 1676221658570,
+      "gifts": [
+        {
+          "gift_id": "4c761878-8e26-4f66-a01f-e735282a66c2",
+          "text": "Kindle Paperwhite",
+          "store": "Amazon",
+          "url": "https://www.amazon.com/"
+        }
+      ]
+    },
+    {
+      "name": "Sam",
+      "dob": 1676221658572,
+      "gifts": [
+        {
+          "gift_id": "4c761878-8e26-4f66-a01f-e735282a66c3",
+          "text": "Apple AirPods Pro",
+          "store": "Apple",
+          "url": "https://www.apple.com/"
+        }
+      ]
+    },
+    {
+      "name": "Emily",
+      "dob": 1676221658574,
+      "gifts": [
+        {
+          "gift_id": "4c761878-8e26-4f66-a01f-e735282a66c4",
+          "text": "Nintendo Switch",
+          "store": "Best Buy",
+          "url": "https://www.bestbuy.com/"
+        }
+      ]
+    }
+  ]

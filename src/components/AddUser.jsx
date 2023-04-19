@@ -36,16 +36,40 @@ export const AddUser = () => {
         setUser({ ...user, [name]: value });
     };
 
+    // LOCAL STORAGE PROCESS
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     if (!user.name) {
+    //         alert("Please enter a name");
+    //         return;
+    //     }
+    //     const newUser = { id: Date.now(), name: user.name, dob: user.dob };
+    //     setUsers([...users, newUser]);
+    //     window.location.href = '/users';
+    // };
+
+    // JSON DUMMY DATA 
     const handleSubmit = (event) => {
         event.preventDefault();
         if (!user.name) {
-            alert("Please enter a name");
-            return;
+          alert("Please enter a name");
+          return;
         }
-        const newUser = { id: Date.now(), name: user.name, dob: user.dob };
-        setUsers([...users, newUser]);
-        window.location.href = '/users';
-    };
+        const newUser = { name: user.name, dob: user.dob };
+        fetch("/api/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setUsers(data);
+            window.location.href = '/users';
+          })
+          .catch((error) => console.error("Error:", error));
+      };
 
     const handleCancel = (event) => {
         event.preventDefault();

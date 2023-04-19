@@ -1,27 +1,65 @@
-import React from 'react';
-import { useLocalStorage } from '../hooks/UseLocalStorage';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { mdiGift } from '@mdi/js';
 import { mdiPencil } from '@mdi/js';
-
 import '../App.css';
 
 export const Users = () => {
-  const [users] = useLocalStorage('users', []);
+  
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:3001/api/people');
+      const data = await response.json();
+      setUsers(data);
+    };
+
+    fetchData();
+  }, []);
+
+  const formatDob = (dob) => {
+    const date = new Date(dob);
+    return date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  };
 
   const sortByMonth = (a, b) => {
-    const monthA = new Date(a.dob).getMonth();
-    const monthB = new Date(b.dob).getMonth();
+
+    const dateA = new Date(a.dob);
+    const dateB = new Date(b.dob);
+
+    const monthA = dateA.getMonth();
+    const monthB = dateB.getMonth();
+
     if (monthA < monthB) {
       return -1;
     }
     if (monthA > monthB) {
       return 1;
     }
+    
+    // Sort by day if months are equal
+    const dayA = dateA.getDate();
+    const dayB = dateB.getDate();
+
+    if (dayA < dayB) {
+      return -1;
+    }
+    if (dayA > dayB) {
+      return 1;
+    }
+
     return 0;
   };
 
-  const sortedUsers = [...users].sort(sortByMonth);
+  const sortedUsers = users.data.sort(sortByMonth).map((user) => ({
+    ...user,
+    dob: formatDob(user.dob),
+  }));
 
   return (
     <div className='users-container'>
@@ -35,7 +73,7 @@ export const Users = () => {
             <div className='user-grid-item header'>Gifts</div>
             <div className='user-grid-item header'>Edit</div>
             {sortedUsers.map((user) => (
-              <React.Fragment key={user.id}>
+              <React.Fragment key={user._id}>
                 <div className='user-grid-item'>
                   <div className='name'>
                   {user.name}
@@ -45,14 +83,14 @@ export const Users = () => {
                   </div>
                 </div>
                 <div className='user-grid-item'>
-                  <Link to={`/edituser/${user.id}`}>
+                  <Link to={`/edituser/${user._id}`}>
                     <svg className="gift-icon" viewBox="0 0 24 24">
                       <path fill="currentColor" d={mdiGift} />
                     </svg>
                   </Link>
                 </div>
                 <div className='user-grid-item'>
-                  <Link to={`/edituser/${user.id}`}>
+                  <Link to={`/edituser/${user._id}`}>
                     <svg className="edit-icon" viewBox="0 0 24 24">
                       <path fill="currentColor" d={mdiPencil} />
                     </svg>
