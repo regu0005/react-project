@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { mdiGift } from '@mdi/js';
 import { mdiPencil } from '@mdi/js';
+
 import '../App.css';
 
 export const Users = () => {
@@ -28,35 +29,20 @@ export const Users = () => {
   };
 
   const sortByMonth = (a, b) => {
-
-    const dateA = new Date(a.dob);
-    const dateB = new Date(b.dob);
-
-    const monthA = dateA.getMonth();
-    const monthB = dateB.getMonth();
-
+    const monthA = new Date(a.dob).getMonth();
+    const monthB = new Date(b.dob).getMonth();
     if (monthA < monthB) {
       return -1;
     }
     if (monthA > monthB) {
       return 1;
     }
-    
-    // Sort by day if months are equal
-    const dayA = dateA.getDate();
-    const dayB = dateB.getDate();
-
-    if (dayA < dayB) {
-      return -1;
-    }
-    if (dayA > dayB) {
-      return 1;
-    }
-
     return 0;
   };
 
-  const sortedUsers = users.data.sort(sortByMonth).map((user) => ({
+  const sortedUsersMain = users.data ? [...users.data].sort(sortByMonth) : [];
+
+  const sortedUsers = sortedUsersMain.map((user) => ({
     ...user,
     dob: formatDob(user.dob),
   }));

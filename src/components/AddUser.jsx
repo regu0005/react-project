@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getYear, getMonth } from 'date-fns';
-import { useLocalStorage } from "../hooks/UseLocalStorage";
 
 export const AddUser = () => {
-    const [users, setUsers] = useLocalStorage("users", []);
+    const [users, setUsers] = useState([]);
     const [user, setUser] = useState({ name: '', dob: ''});
     const [startDate, setStartDate] = useState(new Date());
     const years = range(1950, getYear(new Date()) + 1, 1);
@@ -36,40 +35,32 @@ export const AddUser = () => {
         setUser({ ...user, [name]: value });
     };
 
-    // LOCAL STORAGE PROCESS
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     if (!user.name) {
-    //         alert("Please enter a name");
-    //         return;
-    //     }
-    //     const newUser = { id: Date.now(), name: user.name, dob: user.dob };
-    //     setUsers([...users, newUser]);
-    //     window.location.href = '/users';
-    // };
-
-    // JSON DUMMY DATA 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (!user.name) {
-          alert("Please enter a name");
-          return;
+            alert("Please enter a name");
+            return;
         }
-        const newUser = { name: user.name, dob: user.dob };
-        fetch("/api/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newUser),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            setUsers(data);
+
+        try {
+            const response = await fetch('http://localhost:3001/api/people', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: user.name,
+                    dob: user.dob
+                })
+            });
+            const data = await response.json();
+            setUsers([...users, data]);
             window.location.href = '/users';
-          })
-          .catch((error) => console.error("Error:", error));
-      };
+        } catch (error) {
+            console.error(error);
+            alert('Failed to save user. Please try again.');
+        }
+    };
 
     const handleCancel = (event) => {
         event.preventDefault();
