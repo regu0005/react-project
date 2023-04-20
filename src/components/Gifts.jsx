@@ -31,6 +31,14 @@ export const Gifts = () => {
             <div className='title'>
                 <h1>List of Gifts</h1>
             </div>
+            <div className='add-user'>
+                <Link to={`/${id}/gift/add`}>
+                  <button className='general-btn'>Add Gift</button>
+                </Link>
+                <Link to='/users'>
+                  <button className='general-btn'>Return</button>
+                </Link>
+            </div>
             <div className='user-list'>
                 <div className='user-grid'>
                     <div className='user-grid-item header'>Gift</div>
@@ -57,11 +65,6 @@ export const Gifts = () => {
                     }
                 </div>
                 
-            </div>
-            <div className='add-user'>
-                <Link to='/users'>
-                  <button className='general-btn'>Return</button>
-                </Link>
             </div>
     </div>
   );
