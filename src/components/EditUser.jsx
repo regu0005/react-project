@@ -12,8 +12,6 @@ export const EditUser = () => {
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
   const { id } = useParams();
-
-  const [user, setUser] = useState({ name: '', dob: new Date() });
   const [startDate, setStartDate] = useState(new Date());
 
   useEffect(() => {
@@ -23,6 +21,8 @@ export const EditUser = () => {
       console.log("DATA::: ", data);
       setName(data.data.name);
       setDob(data.data.dob);
+      const dobDate = new Date(data.data.dob);
+      setStartDate(dobDate);
     };
   
     fetchData();
@@ -83,13 +83,12 @@ export const EditUser = () => {
     window.location.href = '/users';
   };
 
-  const formatDob = (dob) => {
-    const date = new Date(dob);
-    return date.toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    });
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return '';
+    }
+    return date.toISOString().substring(0, 10);
   };
 
   console.log("Name::: ",{name});
@@ -116,7 +115,7 @@ export const EditUser = () => {
                 <label htmlFor="name" className="form-label">Date of Birth</label>
                 <DatePicker
                 className="form-input" 
-                value={dob}
+                value={formatDate(dob)}
                 renderCustomHeader={({
                     date,
                     changeYear,
