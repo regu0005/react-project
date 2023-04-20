@@ -1,6 +1,6 @@
 // import React from 'react';
 // import { useNavigate, useSearchParams } from 'react-router-dom';
-// import '../App.css';
+import '../App.css';
 
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
