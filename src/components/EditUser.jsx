@@ -18,7 +18,6 @@ export const EditUser = () => {
     const fetchData = async () => {
       const response = await fetch(`http://localhost:3001/api/people/${id}`);
       const data = await response.json();
-      console.log("DATA::: ", data);
       setName(data.data.name);
       setDob(data.data.dob);
       const dobDate = new Date(data.data.dob);
@@ -81,6 +80,20 @@ export const EditUser = () => {
   const handleCancel = (event) => {
     event.preventDefault();
     window.location.href = '/users';
+  };
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    const confirmDelete = window.confirm('Are you sure you want to delete this user?');
+    if (!confirmDelete) {
+      return;
+    }
+    const response = await fetch(`http://localhost:3001/api/people/${id}`, {
+      method: 'DELETE',  
+    });
+    if (response.ok) {
+        window.location.href = '/users';
+    }
   };
 
   const formatDate = (dateString) => {
@@ -176,7 +189,8 @@ export const EditUser = () => {
             <button type='submit' className='general-btn'>
               Update User
             </button>
-            <button className='general-btn' onClick={handleCancel} >CANCEL</button>
+            <button className='general-btn' onClick={handleDelete} >Delete User</button>
+            <button className='general-btn' onClick={handleCancel} >Cancel</button>
           </form>
         </div>
   );
