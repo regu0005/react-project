@@ -43,23 +43,29 @@ export const AddUser = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3001/api/people', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: user.name,
-                    dob: user.dob
-                })
+            const response = await fetch("http://localhost:3001/api/people", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: user.name,
+                dob: user.dob,
+                gifts: [],
+              }),
             });
+            
+            if (!response.ok) {
+                throw new Error("Failed to save user.");
+            }
+
             const data = await response.json();
             setUsers([...users, data]);
-            window.location.href = '/users';
-        } catch (error) {
+            console.log("User saved", user.name);
+          } catch (error) {
             console.error(error);
-            alert('Failed to save user. Please try again.');
-        }
+            alert("Failed to save user. Please try again.");
+          }
     };
 
     const handleCancel = (event) => {

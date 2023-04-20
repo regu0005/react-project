@@ -2,16 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { mdiGift } from '@mdi/js';
 import { mdiPencil } from '@mdi/js';
+import { useToken } from '../context/TokenContext';
 
 import '../App.css';
 
 export const Users = () => {
   
   const [users, setUsers] = useState([]);
+  const [token, setToken] = useToken();
 
   useEffect(() => {
     const fetchData = async () => {
+      // Token from session storage
+      const savedToken = sessionStorage.getItem('token');
+      if (savedToken) {
+        setToken(savedToken);
+      }
+      else{
+        window.location.href = '/login';
+      }
+
       const response = await fetch('http://localhost:3001/api/people');
+      // const redirect = 'http://localhost:5175/people/';
+      
+      // const response = await fetch('https://aisb001-giftr.onrender.com/api/people');
+      // const baseURL = `https://aisb001-giftr.onrender.com/auth/google/?redirect_url=${redirect}`
       const data = await response.json();
       setUsers(data);
     };

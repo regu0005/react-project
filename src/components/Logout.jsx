@@ -1,13 +1,14 @@
-import React from 'react'
+import { useEffect } from 'react';
+import { useToken } from '../context/TokenContext';
 
-export const Logout = () => {
-  return (
-    <>
-    <div className='content-wrap'>
-        <div className='title'>
-          <h1>Logout</h1>
-        </div>
-    </div>
-    </>
-  )
+export function Logout() {
+  const [token, setToken] = useToken();
+
+  useEffect(() => {
+    sessionStorage.removeItem('token');
+    setToken(null);
+    window.location.href = '/login';
+  }, []);
+
+  return null;
 }
