@@ -60,7 +60,7 @@ export const Users = () => {
             <div className='user-grid-item header'>Edit</div>
             {sortedUsers.map((user) => (
               <React.Fragment key={user._id}>
-                <div className='user-grid-item'>
+                <div className='user-grid-name'>
                   <div className='name'>
                   {user.name}
                   </div>
@@ -69,7 +69,7 @@ export const Users = () => {
                   </div>
                 </div>
                 <div className='user-grid-item'>
-                  <Link to={`/edituser/${user._id}`}>
+                  <Link to={`/${user._id}/gift/`}>
                     <svg className="gift-icon" viewBox="0 0 24 24">
                       <path fill="currentColor" d={mdiGift} />
                     </svg>

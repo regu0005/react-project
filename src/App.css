@@ -273,10 +273,6 @@ h1 {
 }
 
 
-.general-btn:hover {
-  background-color: var(--color-btn1-bg2);
-}
-
 /* USER ADD FORM */
 
 .form-group {
@@ -304,12 +300,12 @@ h1 {
 .users-container {
   max-width: 1200px;
   margin: auto;
-  padding: 40px;
+  /* padding: 40px; */
 }
 
 .title {
   text-align: center;
-  margin-bottom: 40px;
+  /* margin-bottom: 1rem; */
 }
 
 .user-list {
@@ -387,7 +383,8 @@ h1 {
 }
 
 .general-btn:hover {
-  background-color: #006a87;
+  background-color: var(--color-btn1-bg2);
+  color: #fff;
 }
 
 @media (max-width: 768px) {

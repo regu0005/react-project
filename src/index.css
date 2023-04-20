@@ -34,7 +34,7 @@ body {
 
 h1 {
   font-size: 3.2em;
-  line-height: 1.1;
+  /* line-height: 1.1; */
 }
 
 button {
@@ -76,11 +76,16 @@ button:focus-visible {
   margin-top: 20px;
 }
 
-.user-grid-item {
+.user-grid-name {
   border: 1px solid #ccc;
   padding: 10px;
 }
-
+.user-grid-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
 .header {
   font-weight: bold;
 }
@@ -90,10 +95,12 @@ button:focus-visible {
   height: 2rem;
   fill: #444;
   cursor: pointer;
+  align-self: center;
 }
 
 .gift-icon {
   width: 2rem;
   height: 2rem;
   fill: #444;
+  align-self: center;
 }

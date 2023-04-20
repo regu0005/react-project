@@ -7,6 +7,7 @@ import { Logout } from './components/Logout';
 import { Users } from './components/Users';
 import { AddUser } from './components/AddUser';
 import { EditUser } from './components/EditUser';
+import { Gifts } from './components/Gifts';
 import { NotFound } from './components/NotFound';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -29,11 +30,12 @@ function App() {
       <NavBar/>
       <div className='container'>
         <Routes>
-            <Route path='/' element={ <Home />}></Route>
-            <Route path='/home' element={ <Home />}></Route>
+            <Route path='/' element={ <Users />}></Route>
+            <Route path='/home' element={ <Users />}></Route>
             <Route path='/users' element={ <Users />}></Route>
             <Route path='/adduser' element={ <AddUser />}></Route>
             <Route path='/edituser/:id' element={ <EditUser />}></Route>
+            <Route path='/:id/gift' element={ <Gifts />}></Route>
             <Route path='/login' element={ <Login />}></Route>
             <Route path='/logout' element={ <Logout />}></Route>
             <Route path='/*' element={ <NotFound />}></Route>
