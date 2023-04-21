@@ -1,7 +1,8 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
 
 // DATEPICKER
 import DatePicker from "react-datepicker";
@@ -9,25 +10,42 @@ import "react-datepicker/dist/react-datepicker.css";
 import { getYear, getMonth } from 'date-fns';
 
 import '../App.css';
+import { useToken } from '../context/TokenContext';
+
 
 export const EditUser = () => {
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
   const { id } = useParams();
   const [startDate, setStartDate] = useState(new Date());
+  const [token] = useToken();
+  const { id: userId } = useParams();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`http://localhost:3001/api/people/${id}`);
-      const data = await response.json();
-      setName(data.data.name);
-      setDob(data.data.dob);
-      const dobDate = new Date(data.data.dob);
-      setStartDate(dobDate);
+    
+    const fetchData = async (token) => {
+        try {
+          const response = await fetch(`https://aisb001-giftr.onrender.com/api/people/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Failed to fetch users.');
+          }
+          const data = await response.json();
+          setName(data.data.name);
+          setDob(data.data.dob);
+          const dobDate = new Date(data.data.dob);
+          setStartDate(dobDate);
+        } catch (error) {
+          console.error(error);
+        }
     };
-  
-    fetchData();
-  }, [id]);
+
+    fetchData(token);
+
+}, [id, token]);
 
    
   const years = range(1950, getYear(new Date()) + 1, 1);
@@ -55,10 +73,11 @@ export const EditUser = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch(`http://localhost:3001/api/people/${id}`, {
+    const response = await fetch(`https://aisb001-giftr.onrender.com/api/people/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({
         name,
@@ -85,8 +104,9 @@ export const EditUser = () => {
   };
 
 const handleDelete = async (event) => {
-  event.preventDefault();
-  const { value: confirmDelete } = await Swal.fire({
+    event.preventDefault();
+
+    const { value: confirmDelete } = await Swal.fire({
     title: 'Are you sure?',
     text: 'You will not be able to recover this user!',
     icon: 'warning',
@@ -95,34 +115,40 @@ const handleDelete = async (event) => {
     cancelButtonColor: '#3085d6',
     confirmButtonText: 'Yes, delete',
     cancelButtonText: 'Cancel',
-  });
-
-  if (!confirmDelete) {
-    return;
-  }
-
-  const response = await fetch(`http://localhost:3001/api/people/${id}`, {
-    method: 'DELETE',
-  });
-
-  if (response.ok) {
-    await Swal.fire({
-      title: 'Deleted!',
-      text: 'The user has been deleted.',
-      icon: 'success',
-      timer: 3000,
-      timerProgressBar: true,
     });
-    window.location.href = '/users';
-  } else {
-    await Swal.fire({
-      title: 'Error!',
-      text: 'Failed to delete user.',
-      icon: 'error',
-      timer: 3000,
-      timerProgressBar: true,
-    });
-  }
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://aisb001-giftr.onrender.com/api/people/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete user.');
+      }
+      await Swal.fire({
+        title: 'Deleted!',
+        text: 'The user has been deleted.',
+        icon: 'success',
+        timer: 3000,
+        timerProgressBar: true,
+      });
+      window.location.href = '/users';
+    } catch (error) {
+      console.error(error);
+      await Swal.fire({
+        title: 'Error!',
+        text: 'Failed to delete user.',
+        icon: 'error',
+        timer: 3000,
+        timerProgressBar: true,
+      });
+    }
 };
 
 

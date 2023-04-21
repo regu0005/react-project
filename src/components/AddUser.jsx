@@ -2,12 +2,19 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getYear, getMonth } from 'date-fns';
+import { useToken } from '../context/TokenContext';
+import Swal from 'sweetalert2';
 
 export const AddUser = () => {
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState({ name: '', dob: ''});
+
+
+
     const [startDate, setStartDate] = useState(new Date());
-    const years = range(1950, getYear(new Date()) + 1, 1);
+        const [token] = useToken();
+
+        const years = range(1950, getYear(new Date()) + 1, 1);
     const months = [
         "January",
         "February",
@@ -37,16 +44,44 @@ export const AddUser = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!user.name) {
-            alert("Please enter a name");
-            return;
+      if (!user.name) {
+            const { value: confirmAdd } = await Swal.fire({
+                title: 'Add User',
+                text: 'Please insert name',
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Continue',
+              });
+            
+              if (confirmAdd) {
+                return;
+              }
+        }
+        
+        if (!user.dob) {
+            const { value: confirmAdd } = await Swal.fire({
+                title: 'Add User',
+                text: 'Please insert Date of Birth',
+                icon: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Continue',
+              });
+            
+              if (confirmAdd) {
+                return;
+              }
         }
 
         try {
-            const response = await fetch("http://localhost:3001/api/people", {
+            const response = await fetch("https://aisb001-giftr.onrender.com/api/people", {
               method: "POST",
               headers: {
-                "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                  'Content-type': 'application/json'
               },
               body: JSON.stringify({
                 name: user.name,
@@ -61,7 +96,8 @@ export const AddUser = () => {
 
             const data = await response.json();
             setUsers([...users, data]);
-            console.log("User saved", user.name);
+
+            window.location.href = '/users';
           } catch (error) {
             console.error(error);
             alert("Failed to save user. Please try again.");

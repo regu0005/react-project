@@ -7,32 +7,30 @@ import { useToken } from '../context/TokenContext';
 import '../App.css';
 
 export const Users = () => {
-  
   const [users, setUsers] = useState([]);
-  const [token, setToken] = useToken();
+  const [token] = useToken();
 
   useEffect(() => {
     const fetchData = async () => {
-      // Token from session storage
-      const savedToken = sessionStorage.getItem('token');
-      if (savedToken) {
-        setToken(savedToken);
-      }
-      else{
+      try {
+        const response = await fetch('https://aisb001-giftr.onrender.com/api/people', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch users.');
+        }
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error(error);
         window.location.href = '/login';
       }
-
-      const response = await fetch('http://localhost:3001/api/people');
-      // const redirect = 'http://localhost:5175/people/';
-      
-      // const response = await fetch('https://aisb001-giftr.onrender.com/api/people');
-      // const baseURL = `https://aisb001-giftr.onrender.com/auth/google/?redirect_url=${redirect}`
-      const data = await response.json();
-      setUsers(data);
     };
 
     fetchData();
-  }, []);
+  }, [token]);
 
   const formatDob = (dob) => {
     const date = new Date(dob);
@@ -76,24 +74,20 @@ export const Users = () => {
             {sortedUsers.map((user) => (
               <React.Fragment key={user._id}>
                 <div className='user-grid-name'>
-                  <div className='name'>
-                  {user.name}
-                  </div>
-                  <div className='dob'>
-                  {user.dob}
-                  </div>
+                  <div className='name'>{user.name}</div>
+                  <div className='dob'>{user.dob}</div>
                 </div>
                 <div className='user-grid-item'>
                   <Link to={`/${user._id}/gift/`}>
-                    <svg className="gift-icon" viewBox="0 0 24 24">
-                      <path fill="currentColor" d={mdiGift} />
+                    <svg className='gift-icon' viewBox='0 0 24 24'>
+                      <path fill='currentColor' d={mdiGift} />
                     </svg>
                   </Link>
                 </div>
                 <div className='user-grid-item'>
                   <Link to={`/edituser/${user._id}`}>
-                    <svg className="edit-icon" viewBox="0 0 24 24">
-                      <path fill="currentColor" d={mdiPencil} />
+                    <svg className='edit-icon' viewBox='0 0 24 24'>
+                      <path fill='currentColor' d={mdiPencil} />
                     </svg>
                   </Link>
                 </div>

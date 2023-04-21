@@ -68,39 +68,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-.user-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 4px;
-  margin-top: 20px;
-}
-
-.user-grid-name {
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-.user-grid-item {
-  border: 1px solid #ccc;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-}
-.header {
-  font-weight: bold;
-}
-
-.edit-icon {
-  width: 2rem;
-  height: 2rem;
-  fill: #444;
-  cursor: pointer;
-  align-self: center;
-}
-
-.gift-icon {
-  width: 2rem;
-  height: 2rem;
-  fill: #444;
-  align-self: center;
-}

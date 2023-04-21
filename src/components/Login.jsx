@@ -8,7 +8,6 @@ export function Login() {
   const [token, setToken] = useToken();
 
   useEffect(() => {
-    //check for token in querystring
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
 
@@ -29,7 +28,8 @@ export function Login() {
   }, [setToken]);
 
   function handleLoginClick() {
-   const redirect = 'http://localhost:5176/login/';
+    // const redirect = 'http://localhost:5176/login/';
+    const redirect = 'https://react-project-w23.netlify.app/login/';
     const baseURL = `https://aisb001-giftr.onrender.com/auth/google/?redirect_url=${redirect}`
     location.href = baseURL;
   }

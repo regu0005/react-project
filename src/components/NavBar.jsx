@@ -1,14 +1,17 @@
-import React from 'react'
+import React from 'react';
+import { useToken } from '../context/TokenContext';
 import '../App.css';
 
 export const NavBar = () => {
+  const [token] = useToken();
+
   return (
     <nav className='navbar'>
       <ul>
-        <li><a href="/users">Users</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/logout">Logout</a></li>
+        {token && <li><a href="/users">Users</a></li>}
+        {!token && <li><a href="/login">Login</a></li>}
+        {token && <li><a href="/logout">Logout</a></li>}
       </ul>
     </nav>
-  )
-}
+  );
+};

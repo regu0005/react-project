@@ -1,7 +1,4 @@
-// create state variable
-// to be used as single source of trith
-// for the logged in user account
-// be able to save a backup in localStorage
+
 import { useState, useEffect } from 'react';
 
 export function useLocalStorage(key, initialState) {
